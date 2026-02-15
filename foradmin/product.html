@@ -95,7 +95,72 @@
     .modal-actions .btn { flex: 1; }
     .modal-actions .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--muted); }
     .modal-actions .btn-secondary:hover { border-color: var(--muted); opacity: 0.9; }
+/* General Form Styling (Context) */
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: sans-serif;
+}
 
+.input-label {
+  color: #a0a0a0; /* Light gray text for label */
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* The Upload Area Container */
+.upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  background-color: #1a1a1a; /* Dark background matching the inputs */
+  border: 1px solid #333;   /* Subtle border */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Hover Effect for interactivity */
+.upload-area:hover {
+  border-color: #555;
+  background-color: #222;
+}
+
+/* Icon Styling */
+.upload-area .icon svg {
+  width: 40px;
+  height: 40px;
+  stroke: #666; /* Gray icon color */
+  margin-bottom: 12px;
+}
+
+/* Text Styling */
+.upload-text {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* The Yellow Button Styling */
+.upload-btn {
+  background-color: #eec643; /* Yellow accent color */
+  color: #111;               /* Dark text for contrast */
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  display: inline-block;
+}
+
+/* Focus state for accessibility */
+.upload-area:focus-within {
+  border-color: #eec643;
+}
     footer { padding: 2rem; border-top: 1px solid var(--surface); text-align: center; }
     footer p { color: var(--muted); font-size: 0.85rem; }
 
@@ -169,8 +234,23 @@
           <input type="text" id="addName" required placeholder="e.g. Classic Tee">
         </div>
         <div class="form-group">
-          <label for="addSku">SKU</label>
-          <input type="text" id="addSku" required placeholder="e.g. THR-009">
+          <label class="input-label">Product Image</label>
+          
+          <label for="file-upload" class="upload-area">
+            
+            <div class="icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 16.2091 19.2091 18 17 18H7C4.79086 18 3 16.2091 3 14C3 11.7909 4.79086 10 7 10Z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 10V14M12 10L9 13M12 10L15 13" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+        
+            <span class="upload-text">Drag and drop your image here, or click to select</span>
+            
+            <span class="upload-btn">Upload Image</span>
+            
+            <input type="file" id="file-upload" hidden>
+          </label>
         </div>
         <div class="form-group">
           <label for="addPrice">Price ($)</label>
@@ -207,8 +287,23 @@
           <input type="text" id="editName" required>
         </div>
         <div class="form-group">
-          <label for="editSku">SKU</label>
-          <input type="text" id="editSku" required>
+          <label class="input-label">Product Image</label>
+          
+          <label for="file-upload" class="upload-area">
+            
+            <div class="icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 16.2091 19.2091 18 17 18H7C4.79086 18 3 16.2091 3 14C3 11.7909 4.79086 10 7 10Z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 10V14M12 10L9 13M12 10L15 13" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+        
+            <span class="upload-text">Drag and drop your image here, or click to select</span>
+            
+            <span class="upload-btn">Upload Image</span>
+            
+            <input type="file" id="file-upload" hidden>
+          </label>
         </div>
         <div class="form-group">
           <label for="editPrice">Price ($)</label>
