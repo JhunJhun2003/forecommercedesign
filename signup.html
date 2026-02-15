@@ -120,13 +120,7 @@
   <header id="header">
     <a href="home.html" class="logo">Threads</a>
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">☰</button>
-    <nav id="nav" aria-hidden="true">
-      <a href="home.html">Home</a>
-      <a href="productlist.html">Shop</a>
-      <a href="#collections">Collections</a>
-      <a href="#about">About</a>
-    </nav>
-    <a href="cart.html" class="cart-btn" aria-label="Cart">Cart (0)</a>
+    
   </header>
   <div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
 
@@ -144,7 +138,11 @@
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="••••••••" required minlength="6">
+          <input type="password" id="password" name="password" placeholder="••••••••" required minlength="8">
+        </div>
+        <div class="form-group">
+          <label for="password">Confirm Password</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" required minlength="8">
         </div>
         <button type="submit" class="cta">Sign up</button>
       </form>
