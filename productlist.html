@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop — Threads T-Shirt Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --surface: #1a1a1a;
+      --text: #f5f5f0;
+      --muted: #8a8a85;
+      --accent: #e8c547;
+      --accent-dim: #c4a83a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, var(--bg) 60%, transparent);
+      transition: background 0.3s;
+    }
+    header.scrolled { background: rgba(13, 13, 13, 0.95); }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    nav { display: flex; gap: 2rem; }
+    nav a {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--text); }
+    nav a.active { color: var(--accent); }
+
+    .cart-btn {
+      background: none;
+      border: 1px solid var(--muted);
+      color: var(--text);
+      padding: 0.5rem 1rem;
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .cart-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      padding: 0.5rem;
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 1;
+      min-width: 44px;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-overlay { display: none; }
+
+    /* Main content */
+    main {
+      padding-top: 5rem;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding-left: 2rem;
+      padding-right: 2rem;
+      padding-bottom: 4rem;
+    }
+
+    .breadcrumb {
+      padding: 1.5rem 0 1rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { margin: 0 0.35rem; }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Toolbar: filters + sort */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--surface);
+    }
+
+    .filter-toggle {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--muted);
+      color: var(--text);
+      padding: 0.5rem 1rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 4px;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 44px;
+    }
+    .filter-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    .sort-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .sort-wrap label {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .sort-wrap select {
+      background: var(--surface);
+      border: 1px solid var(--muted);
+      color: var(--text);
+      padding: 0.5rem 2rem 0.5rem 0.75rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238a8a85' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.5rem center;
+    }
+    .sort-wrap select:hover,
+    .sort-wrap select:focus {
+      border-color: var(--accent);
+      outline: none;
+    }
+
+    /* Layout: sidebar + grid */
+    .listing-wrap {
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    /* Filters sidebar */
+    .filters {
+      width: 220px;
+      flex-shrink: 0;
+    }
+    .filters h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .filters ul {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+    .filters li { margin-bottom: 0.4rem; }
+    .filters a,
+    .filters label {
+      color: var(--text);
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: block;
+      padding: 0.25rem 0;
+      transition: color 0.2s;
+    }
+    .filters a:hover,
+    .filters label:hover { color: var(--accent); }
+    .filters input[type="checkbox"] {
+      margin-right: 0.5rem;
+      accent-color: var(--accent);
+    }
+
+    /* Product grid */
+    .products {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      background: var(--surface);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.25s;
+      display: block;
+    }
+    .product-card:hover { transform: translateY(-4px); }
+
+    .product-image {
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, #2a2a28 0%, #1f1f1d 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--muted);
+      position: relative;
+    }
+    .product-image span { opacity: 0.6; }
+
+    .product-badge {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      background: var(--accent);
+      color: var(--bg);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .product-info {
+      padding: 1rem;
+    }
+    .product-info h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    .product-info .price {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+    .pagination a,
+    .pagination span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px;
+      height: 40px;
+      padding: 0 0.75rem;
+      background: var(--surface);
+      border: 1px solid transparent;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .pagination a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .pagination .current {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 2rem;
+      padding: 2rem;
+      border-top: 1px solid var(--surface);
+      text-align: center;
+    }
+    footer p { color: var(--muted); font-size: 0.85rem; }
+
+    /* ========== Mobile ========== */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.75rem 1rem;
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+      }
+      .logo { font-size: 1.25rem; }
+      .menu-toggle { display: flex; }
+      nav {
+        position: fixed;
+        top: 0; right: 0; bottom: 0;
+        width: min(280px, 85vw);
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.5rem;
+        background: var(--surface);
+        padding: 4rem 1.5rem 2rem;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -4px 0 24px rgba(0,0,0,0.3);
+        z-index: 99;
+      }
+      nav.open { transform: translateX(0); }
+      .nav-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 98;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+      }
+      .nav-overlay.open,
+      .filters-overlay.open { opacity: 1; visibility: visible; }
+      .filters-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 98;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+      }
+      nav a {
+        font-size: 1.1rem;
+        padding: 0.75rem 0;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+      .cart-btn { padding: 0.6rem 0.9rem; font-size: 0.8rem; min-height: 44px; }
+
+      main {
+        padding: 4rem 1rem 2rem;
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+      }
+
+      .breadcrumb { padding: 1rem 0 0.75rem; font-size: 0.8rem; }
+      .page-title { font-size: 1.4rem; margin-bottom: 1rem; }
+
+      .filter-toggle { display: inline-flex; }
+      .filters {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: min(280px, 85vw);
+        background: var(--surface);
+        z-index: 101;
+        padding: 4rem 1.5rem 2rem;
+        overflow-y: auto;
+        box-shadow: 4px 0 24px rgba(0,0,0,0.3);
+      }
+      .filters.open { display: block; }
+      .listing-wrap { flex-direction: column; }
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+      }
+      .product-info { padding: 0.75rem; }
+      .product-info h3 { font-size: 0.85rem; }
+      .product-image { font-size: 2rem; }
+      .product-badge { font-size: 0.65rem; top: 0.5rem; left: 0.5rem; }
+      .pagination { margin-top: 2rem; }
+      footer {
+        padding: 2rem 1rem;
+        padding-bottom: max(2rem, env(safe-area-inset-bottom));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-title { font-size: 1.25rem; }
+      .product-info h3 { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <header id="header">
+    <a href="home.html" class="logo">Threads</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+    <nav id="nav" aria-hidden="true">
+      <a href="home.html">Home</a>
+      <a href="productlist.html" class="active">Shop</a>
+      <a href="#collections">Collections</a>
+      <a href="#about">About</a>
+    </nav>
+    <a href="cart.html" class="cart-btn" aria-label="Cart">Cart (0)</a>
+  </header>
+  <div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
+
+  <main>
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="home.html">Home</a><span>/</span>
+      <span>Shop</span>
+    </nav>
+
+    <h1 class="page-title">All tees</h1>
+
+    <div class="toolbar">
+      <button type="button" class="filter-toggle" id="filterToggle" aria-expanded="false">
+        Filters
+      </button>
+      <div class="sort-wrap">
+        <label for="sort">Sort by</label>
+        <select id="sort" aria-label="Sort products">
+          <option value="newest">Newest</option>
+          <option value="price-asc">Price: low to high</option>
+          <option value="price-desc">Price: high to low</option>
+          <option value="name">Name A–Z</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="listing-wrap">
+      <aside class="filters" id="filters">
+        <h3>Category</h3>
+        <ul>
+          <li><a href="#">All tees</a></li>
+          <li><a href="#">Classic</a></li>
+          <li><a href="#">Oversized</a></li>
+          <li><a href="#">Graphic</a></li>
+          <li><a href="#">Limited edition</a></li>
+        </ul>
+        <h3>Size</h3>
+        <ul>
+          <li><label><input type="checkbox" name="size" value="xs"> XS</label></li>
+          <li><label><input type="checkbox" name="size" value="s"> S</label></li>
+          <li><label><input type="checkbox" name="size" value="m"> M</label></li>
+          <li><label><input type="checkbox" name="size" value="l"> L</label></li>
+          <li><label><input type="checkbox" name="size" value="xl"> XL</label></li>
+        </ul>
+        <h3>Color</h3>
+        <ul>
+          <li><label><input type="checkbox" name="color" value="black"> Black</label></li>
+          <li><label><input type="checkbox" name="color" value="white"> White</label></li>
+          <li><label><input type="checkbox" name="color" value="grey"> Grey</label></li>
+          <li><label><input type="checkbox" name="color" value="navy"> Navy</label></li>
+          <li><label><input type="checkbox" name="color" value="cream"> Cream</label></li>
+        </ul>
+        <h3>Price</h3>
+        <ul>
+          <li><a href="#">Under $30</a></li>
+          <li><a href="#">$30 – $40</a></li>
+          <li><a href="#">Over $40</a></li>
+        </ul>
+      </aside>
+
+      <div class="products">
+        <a href="#" class="product-card">
+          <div class="product-image"><span>👕</span></div>
+          <div class="product-info">
+            <h3>Essential Crew</h3>
+            <span class="price">$28</span>
+          </div>
+        </a>
+        <a href="#" class="product-card">
+          <div class="product-image">
+            <span class="product-badge">New</span>
+            <span>👕</span>
+          </div>
+          <div class="product-info">
+            <h3>Oversized Box Tee</h3>
+            <span class="price">$34</span>
+          </div>
+        </a>
+        <a href="#" class="product-card">
+          <div class="product-image"><span>👕</span></div>
+          <div class="product-info">
+            <h3>Stripe Classic</h3>
+            <span class="price">$32</span>
+          </div>
+        </a>
+        <a href="#" class="product-card">
+          <div class="product-image"><span>👕</span></div>
+          <div class="product-info">
+            <h3>Heavy Cotton</h3>
+            <span class="price">$36</span>
+          </div>
+        </a>
+        <a href="#" class="product-card">
+          <div class="product-image"><span>👕</span></div>
+          <div class="product-info">
+            <h3>V-Neck Essential</h3>
+            <span class="price">$26</span>
+          </div>
+        </a>
+        <a href="#" class="product-card">
+          <div class="product-image"><span>👕</span></div>
+          <div class="product-info">
+            <h3>Pocket Tee</h3>
+            <span class="price">$30</span>
+          </div>
+        </a>
+        <a href="#" class="product-card">
+          <div class="product-image">
+            <span class="product-badge">New</span>
+            <span>👕</span>
+          </div>
+          <div class="product-info">
+            <h3>Organic Cotton</h3>
+            <span class="price">$38</span>
+          </div>
+        </a>
+        <a href="#" class="product-card">
+          <div class="product-image"><span>👕</span></div>
+          <div class="product-info">
+            <h3>Minimal Logo</h3>
+            <span class="price">$32</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <nav class="pagination" aria-label="Pagination">
+      <span class="current" aria-current="page">1</span>
+      <a href="#">2</a>
+      <a href="#">Next</a>
+    </nav>
+
+    <footer>
+      <p>© Threads. Quality tees, no fluff.</p>
+    </footer>
+  </main>
+
+  <script>
+    const header = document.getElementById('header');
+    const nav = document.getElementById('nav');
+    const menuToggle = document.getElementById('menuToggle');
+    const navOverlay = document.getElementById('navOverlay');
+    const filterToggle = document.getElementById('filterToggle');
+    const filters = document.getElementById('filters');
+
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 80);
+    });
+
+    function openMenu() {
+      nav.classList.add('open');
+      navOverlay.classList.add('open');
+      nav.setAttribute('aria-hidden', 'false');
+      menuToggle.setAttribute('aria-label', 'Close menu');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      menuToggle.textContent = '✕';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      nav.classList.remove('open');
+      navOverlay.classList.remove('open');
+      nav.setAttribute('aria-hidden', 'true');
+      menuToggle.setAttribute('aria-label', 'Open menu');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.textContent = '☰';
+      document.body.style.overflow = '';
+    }
+
+    menuToggle.addEventListener('click', () => {
+      if (nav.classList.contains('open')) closeMenu();
+      else openMenu();
+    });
+    navOverlay.addEventListener('click', closeMenu);
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+
+    if (filterToggle && filters) {
+      filterToggle.addEventListener('click', () => {
+        const open = filters.classList.toggle('open');
+        filterToggle.setAttribute('aria-expanded', open);
+        if (open) {
+          const overlay = document.createElement('div');
+          overlay.className = 'nav-overlay filters-overlay';
+          overlay.setAttribute('aria-hidden', 'true');
+          overlay.addEventListener('click', () => {
+            filters.classList.remove('open');
+            filterToggle.setAttribute('aria-expanded', 'false');
+            overlay.remove();
+          });
+          document.body.appendChild(overlay);
+          setTimeout(() => overlay.classList.add('open'), 10);
+        } else {
+          const overlay = document.querySelector('.filters-overlay');
+          if (overlay) overlay.remove();
+        }
+      });
+    }
+  </script>
+</body>
+</html>

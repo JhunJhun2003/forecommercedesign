@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign up — Threads T-Shirt Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --surface: #1a1a1a;
+      --text: #f5f5f0;
+      --muted: #8a8a85;
+      --accent: #e8c547;
+      --accent-dim: #c4a83a;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: linear-gradient(to bottom, var(--bg) 60%, transparent);
+      transition: background 0.3s;
+    }
+    header.scrolled { background: rgba(13, 13, 13, 0.95); }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.02em; }
+    nav { display: flex; gap: 2rem; }
+    nav a { color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    nav a:hover { color: var(--text); }
+    .cart-btn {
+      background: none; border: 1px solid var(--muted); color: var(--text);
+      padding: 0.5rem 1rem; font-family: inherit; font-size: 0.85rem;
+      border-radius: 4px; transition: border-color 0.2s, color 0.2s;
+    }
+    .cart-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .menu-toggle {
+      display: none; background: none; border: none; color: var(--text);
+      padding: 0.5rem; cursor: pointer; font-size: 1.5rem; line-height: 1;
+      min-width: 44px; min-height: 44px; align-items: center; justify-content: center;
+    }
+    .nav-overlay { display: none; }
+
+    main {
+      padding-top: 6rem;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 2rem;
+      padding-right: 2rem;
+      padding-bottom: 4rem;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 2rem;
+    }
+    .auth-card h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.4rem; color: var(--muted); }
+    .form-group input {
+      width: 100%;
+      padding: 0.7rem 0.85rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--muted);
+      border-radius: 4px;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus { outline: none; border-color: var(--accent); }
+    .form-group input::placeholder { color: var(--muted); opacity: 0.8; }
+    .cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--accent); color: var(--bg);
+      padding: 0.85rem 1.5rem; font-family: inherit; font-weight: 600; font-size: 0.95rem;
+      border-radius: 4px; border: none; cursor: pointer; width: 100%;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .cta:hover { background: var(--accent-dim); transform: translateY(-2px); }
+    .auth-footer { margin-top: 1.5rem; text-align: center; font-size: 0.9rem; color: var(--muted); }
+    .auth-footer a { color: var(--accent); }
+    .auth-footer a:hover { text-decoration: underline; }
+
+    footer { padding: 2rem; border-top: 1px solid var(--surface); text-align: center; }
+    footer p { color: var(--muted); font-size: 0.85rem; }
+
+    @media (max-width: 768px) {
+      header { padding: 0.75rem 1rem; padding-left: max(1rem, env(safe-area-inset-left)); padding-right: max(1rem, env(safe-area-inset-right)); }
+      .logo { font-size: 1.25rem; }
+      .menu-toggle { display: flex; }
+      nav {
+        position: fixed; top: 0; right: 0; bottom: 0;
+        width: min(280px, 85vw);
+        flex-direction: column; justify-content: center; gap: 0.5rem;
+        background: var(--surface); padding: 4rem 1.5rem 2rem;
+        transform: translateX(100%); transition: transform 0.3s ease;
+        box-shadow: -4px 0 24px rgba(0,0,0,0.3); z-index: 99;
+      }
+      nav.open { transform: translateX(0); }
+      .nav-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 98; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+      .nav-overlay.open { opacity: 1; visibility: visible; }
+      nav a { font-size: 1.1rem; padding: 0.75rem 0; min-height: 44px; display: flex; align-items: center; }
+      .cart-btn { padding: 0.6rem 0.9rem; font-size: 0.8rem; min-height: 44px; }
+      main { padding: 5rem 1rem 3rem; padding-left: max(1rem, env(safe-area-inset-left)); padding-right: max(1rem, env(safe-area-inset-right)); }
+      .auth-card { padding: 1.5rem; }
+      footer { padding: 2rem 1rem; padding-bottom: max(2rem, env(safe-area-inset-bottom)); }
+    }
+  </style>
+</head>
+<body>
+  <header id="header">
+    <a href="home.html" class="logo">Threads</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+    <nav id="nav" aria-hidden="true">
+      <a href="home.html">Home</a>
+      <a href="productlist.html">Shop</a>
+      <a href="#collections">Collections</a>
+      <a href="#about">About</a>
+    </nav>
+    <a href="cart.html" class="cart-btn" aria-label="Cart">Cart (0)</a>
+  </header>
+  <div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
+
+  <main>
+    <div class="auth-card">
+      <h1>Create account</h1>
+      <form action="home.html" method="get">
+        <div class="form-group">
+          <label for="name">Full name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" required minlength="6">
+        </div>
+        <button type="submit" class="cta">Sign up</button>
+      </form>
+      <p class="auth-footer">Already have an account? <a href="login.html">Sign in</a></p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© Threads. Quality tees, no fluff.</p>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    const nav = document.getElementById('nav');
+    const menuToggle = document.getElementById('menuToggle');
+    const navOverlay = document.getElementById('navOverlay');
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 80));
+    function openMenu() {
+      nav.classList.add('open'); navOverlay.classList.add('open');
+      nav.setAttribute('aria-hidden', 'false');
+      menuToggle.setAttribute('aria-label', 'Close menu');
+      menuToggle.setAttribute('aria-expanded', 'true');
+      menuToggle.textContent = '✕';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      nav.classList.remove('open'); navOverlay.classList.remove('open');
+      nav.setAttribute('aria-hidden', 'true');
+      menuToggle.setAttribute('aria-label', 'Open menu');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.textContent = '☰';
+      document.body.style.overflow = '';
+    }
+    menuToggle.addEventListener('click', () => nav.classList.contains('open') ? closeMenu() : openMenu());
+    navOverlay.addEventListener('click', closeMenu);
+    nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  </script>
+</body>
+</html>
