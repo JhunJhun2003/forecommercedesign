@@ -1,36 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Products — Threads Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet">
   <style>
-    :root { --bg: #0d0d0d; --surface: #1a1a1a; --text: #f5f5f0; --muted: #8a8a85; --accent: #e8c547; --accent-dim: #c4a83a; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; overflow-x: hidden; }
-    a { color: inherit; text-decoration: none; }
+    :root {
+      --bg: #0d0d0d;
+      --surface: #1a1a1a;
+      --text: #f5f5f0;
+      --muted: #8a8a85;
+      --accent: #e8c547;
+      --accent-dim: #c4a83a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
     header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
       padding: 1rem 2rem;
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       background: rgba(13, 13, 13, 0.95);
       border-bottom: 1px solid var(--surface);
     }
-    .logo { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--muted); }
-    .logo span { color: var(--accent); font-size: 0.85rem; margin-left: 0.35rem; }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .logo span {
+      color: var(--accent);
+      font-size: 0.85rem;
+      margin-left: 0.35rem;
+    }
+
     .back-link {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      color: var(--muted); font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-size: 0.9rem;
       padding: 0.5rem 1rem;
       border: 1px solid var(--muted);
       border-radius: 4px;
       transition: border-color 0.2s, color 0.2s;
     }
-    .back-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    .back-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
 
     main {
       padding-top: 5rem;
@@ -40,146 +91,369 @@
       padding-right: 2rem;
       padding-bottom: 4rem;
     }
-    .breadcrumb { padding: 1rem 0 0.75rem; font-size: 0.85rem; color: var(--muted); }
-    .breadcrumb a:hover { color: var(--accent); }
-    .breadcrumb span { margin: 0 0.35rem; }
-    .page-title { font-family: 'Playfair Display', serif; font-size: 1.75rem; font-weight: 600; margin-bottom: 1rem; }
-    .back-panel { display: inline-block; color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; }
-    .back-panel:hover { color: var(--accent); }
 
-    .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .breadcrumb {
+      padding: 1rem 0 0.75rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .breadcrumb a:hover {
+      color: var(--accent);
+    }
+
+    .breadcrumb span {
+      margin: 0 0.35rem;
+    }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .back-panel {
+      display: inline-block;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .back-panel:hover {
+      color: var(--accent);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
     .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
-      padding: 0.5rem 1rem; font-family: inherit; font-size: 0.9rem; font-weight: 500;
-      border-radius: 4px; border: none; cursor: pointer; transition: opacity 0.2s, background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s, background 0.2s;
       min-height: 44px;
     }
-    .btn-primary { background: var(--accent); color: var(--bg); }
-    .btn-primary:hover { background: var(--accent-dim); }
-    .btn-edit { background: var(--surface); color: var(--text); border: 1px solid var(--muted); }
-    .btn-edit:hover { border-color: var(--accent); color: var(--accent); }
-    .btn-delete { background: transparent; color: #c44; border: 1px solid rgba(196,68,68,0.5); }
-    .btn-delete:hover { background: rgba(196,68,68,0.15); }
-    .btn-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
-    .table-wrap { overflow-x: auto; background: var(--surface); border-radius: 8px; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 480px; }
-    th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    th { color: var(--muted); font-weight: 500; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(255,255,255,0.02); }
-    .product-name { font-weight: 500; }
-    td .btn { padding: 0.35rem 0.6rem; font-size: 0.8rem; min-height: 36px; }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dim);
+    }
+
+    .btn-edit {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--muted);
+    }
+
+    .btn-edit:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-delete {
+      background: transparent;
+      color: #c44;
+      border: 1px solid rgba(196, 68, 68, 0.5);
+    }
+
+    .btn-delete:hover {
+      background: rgba(196, 68, 68, 0.15);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      background: var(--surface);
+      border-radius: 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      min-width: 480px;
+    }
+
+    th,
+    td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .product-name {
+      font-weight: 500;
+    }
+
+    td .btn {
+      padding: 0.35rem 0.6rem;
+      font-size: 0.8rem;
+      min-height: 36px;
+    }
 
     .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200;
-      display: flex; align-items: center; justify-content: center;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 1rem;
-      opacity: 0; visibility: hidden; transition: opacity 0.25s, visibility 0.25s;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s, visibility 0.25s;
     }
-    .modal-overlay.open { opacity: 1; visibility: visible; }
+
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
     .modal {
-      background: var(--surface); border-radius: 8px; padding: 1.5rem;
-      width: 100%; max-width: 420px; max-height: 90vh; overflow-y: auto;
-      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 420px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .modal h2 { font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 1.25rem; }
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.35rem; }
-    .form-group input, .form-group select {
-      width: 100%; padding: 0.6rem 0.75rem; font-family: inherit; font-size: 0.9rem;
-      color: var(--text); background: var(--bg); border: 1px solid var(--muted); border-radius: 4px;
+
+    .modal h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      margin-bottom: 1.25rem;
     }
-    .form-group input:focus { outline: none; border-color: var(--accent); }
-    .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
-    .modal-actions .btn { flex: 1; }
-    .modal-actions .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--muted); }
-    .modal-actions .btn-secondary:hover { border-color: var(--muted); opacity: 0.9; }
-/* General Form Styling (Context) */
-.form-group {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-family: sans-serif;
-}
 
-.input-label {
-  color: #a0a0a0; /* Light gray text for label */
-  font-size: 14px;
-  font-weight: 500;
-}
+    .form-group {
+      margin-bottom: 1rem;
+    }
 
-/* The Upload Area Container */
-.upload-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 30px 20px;
-  background-color: #1a1a1a; /* Dark background matching the inputs */
-  border: 1px solid #333;   /* Subtle border */
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
 
-/* Hover Effect for interactivity */
-.upload-area:hover {
-  border-color: #555;
-  background-color: #222;
-}
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--muted);
+      border-radius: 4px;
+    }
 
-/* Icon Styling */
-.upload-area .icon svg {
-  width: 40px;
-  height: 40px;
-  stroke: #666; /* Gray icon color */
-  margin-bottom: 12px;
-}
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
 
-/* Text Styling */
-.upload-text {
-  color: #777;
-  font-size: 14px;
-  margin-bottom: 15px;
-  text-align: center;
-}
+    .modal-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
 
-/* The Yellow Button Styling */
-.upload-btn {
-  background-color: #eec643; /* Yellow accent color */
-  color: #111;               /* Dark text for contrast */
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 14px;
-  display: inline-block;
-}
+    .modal-actions .btn {
+      flex: 1;
+    }
 
-/* Focus state for accessibility */
-.upload-area:focus-within {
-  border-color: #eec643;
-}
-    footer { padding: 2rem; border-top: 1px solid var(--surface); text-align: center; }
-    footer p { color: var(--muted); font-size: 0.85rem; }
+    .modal-actions .btn-secondary {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--muted);
+    }
+
+    .modal-actions .btn-secondary:hover {
+      border-color: var(--muted);
+      opacity: 0.9;
+    }
+
+    /* General Form Styling (Context) */
+    .form-group {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-family: sans-serif;
+    }
+
+    .input-label {
+      color: #a0a0a0;
+      /* Light gray text for label */
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* The Upload Area Container */
+    .upload-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px;
+      background-color: #1a1a1a;
+      /* Dark background matching the inputs */
+      border: 1px solid #333;
+      /* Subtle border */
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    /* Hover Effect for interactivity */
+    .upload-area:hover {
+      border-color: #555;
+      background-color: #222;
+    }
+
+    /* Icon Styling */
+    .upload-area .icon svg {
+      width: 40px;
+      height: 40px;
+      stroke: #666;
+      /* Gray icon color */
+      margin-bottom: 12px;
+    }
+
+    /* Text Styling */
+    .upload-text {
+      color: #777;
+      font-size: 14px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    /* The Yellow Button Styling */
+    .upload-btn {
+      background-color: #eec643;
+      /* Yellow accent color */
+      color: #111;
+      /* Dark text for contrast */
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 14px;
+      display: inline-block;
+    }
+
+    /* Focus state for accessibility */
+    .upload-area:focus-within {
+      border-color: #eec643;
+    }
+
+    footer {
+      padding: 2rem;
+      border-top: 1px solid var(--surface);
+      text-align: center;
+    }
+
+    footer p {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
 
     @media (max-width: 768px) {
-      header { padding: 0.75rem 1rem; padding-left: max(1rem, env(safe-area-inset-left)); padding-right: max(1rem, env(safe-area-inset-right)); }
-      main { padding: 4rem 1rem 2rem; padding-left: max(1rem, env(safe-area-inset-left)); padding-right: max(1rem, env(safe-area-inset-right)); }
-      .page-title { font-size: 1.4rem; }
-      th, td { padding: 0.5rem 0.75rem; font-size: 0.85rem; }
-      footer { padding: 2rem 1rem; padding-bottom: max(2rem, env(safe-area-inset-bottom)); }
+      header {
+        padding: 0.75rem 1rem;
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+      }
+
+      main {
+        padding: 4rem 1rem 2rem;
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+      }
+
+      .page-title {
+        font-size: 1.4rem;
+      }
+
+      th,
+      td {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+      }
+
+      footer {
+        padding: 2rem 1rem;
+        padding-bottom: max(2rem, env(safe-area-inset-bottom));
+      }
     }
+
     @media (max-width: 480px) {
-      table { min-width: 360px; }
-      .breadcrumb { font-size: 0.8rem; }
-      .toolbar { flex-direction: column; align-items: flex-start; }
-      td .btn-group { flex-direction: column; }
-      td .btn { width: 100%; }
+      table {
+        min-width: 360px;
+      }
+
+      .breadcrumb {
+        font-size: 0.8rem;
+      }
+
+      .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      td .btn-group {
+        flex-direction: column;
+      }
+
+      td .btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
+
 <body>
   <header>
     <a href="adminpanel.html" class="logo">Threads <span>Admin</span></a>
@@ -203,7 +477,6 @@
         <thead>
           <tr>
             <th>Product</th>
-            <th>SKU</th>
             <th>Price</th>
             <th>Stock</th>
             <th>Status</th>
@@ -211,14 +484,94 @@
           </tr>
         </thead>
         <tbody id="productTableBody">
-          <tr data-id="1"><td class="product-name">Essential Crew</td><td>THR-001</td><td>$28</td><td>120</td><td>Active</td><td><div class="btn-group"><button type="button" class="btn btn-edit" onclick="openEditModal(1)">Edit</button><button type="button" class="btn btn-delete" onclick="openDeleteModal(1, 'Essential Crew')">Delete</button></div></td></tr>
-          <tr data-id="2"><td class="product-name">Oversized Box Tee</td><td>THR-002</td><td>$34</td><td>85</td><td>Active</td><td><div class="btn-group"><button type="button" class="btn btn-edit" onclick="openEditModal(2)">Edit</button><button type="button" class="btn btn-delete" onclick="openDeleteModal(2, 'Oversized Box Tee')">Delete</button></div></td></tr>
-          <tr data-id="3"><td class="product-name">Stripe Classic</td><td>THR-003</td><td>$32</td><td>64</td><td>Active</td><td><div class="btn-group"><button type="button" class="btn btn-edit" onclick="openEditModal(3)">Edit</button><button type="button" class="btn btn-delete" onclick="openDeleteModal(3, 'Stripe Classic')">Delete</button></div></td></tr>
-          <tr data-id="4"><td class="product-name">Heavy Cotton</td><td>THR-004</td><td>$36</td><td>42</td><td>Active</td><td><div class="btn-group"><button type="button" class="btn btn-edit" onclick="openEditModal(4)">Edit</button><button type="button" class="btn btn-delete" onclick="openDeleteModal(4, 'Heavy Cotton')">Delete</button></div></td></tr>
-          <tr data-id="5"><td class="product-name">V-Neck Essential</td><td>THR-005</td><td>$26</td><td>98</td><td>Active</td><td><div class="btn-group"><button type="button" class="btn btn-edit" onclick="openEditModal(5)">Edit</button><button type="button" class="btn btn-delete" onclick="openDeleteModal(5, 'V-Neck Essential')">Delete</button></div></td></tr>
-          <tr data-id="6"><td class="product-name">Pocket Tee</td><td>THR-006</td><td>$30</td><td>55</td><td>Active</td><td><div class="btn-group"><button type="button" class="btn btn-edit" onclick="openEditModal(6)">Edit</button><button type="button" class="btn btn-delete" onclick="openDeleteModal(6, 'Pocket Tee')">Delete</button></div></td></tr>
-          <tr data-id="7"><td class="product-name">Organic Cotton</td><td>THR-007</td><td>$38</td><td>30</td><td>Active</td><td><div class="btn-group"><button type="button" class="btn btn-edit" onclick="openEditModal(7)">Edit</button><button type="button" class="btn btn-delete" onclick="openDeleteModal(7, 'Organic Cotton')">Delete</button></div></td></tr>
-          <tr data-id="8"><td class="product-name">Minimal Logo</td><td>THR-008</td><td>$32</td><td>0</td><td>Out of stock</td><td><div class="btn-group"><button type="button" class="btn btn-edit" onclick="openEditModal(8)">Edit</button><button type="button" class="btn btn-delete" onclick="openDeleteModal(8, 'Minimal Logo')">Delete</button></div></td></tr>
+          <tr data-id="1">
+            <td class="product-name">Essential Crew</td>
+            <td>$28</td>
+            <td>120</td>
+            <td>Active</td>
+            <td>
+              <div class="btn-group"><button type="button" class="btn btn-edit"
+                  onclick="openEditModal(1)">Edit</button><button type="button" class="btn btn-delete"
+                  onclick="openDeleteModal(1, 'Essential Crew')">Delete</button></div>
+            </td>
+          </tr>
+          <tr data-id="2">
+            <td class="product-name">Oversized Box Tee</td>
+            <td>$34</td>
+            <td>85</td>
+            <td>Active</td>
+            <td>
+              <div class="btn-group"><button type="button" class="btn btn-edit"
+                  onclick="openEditModal(2)">Edit</button><button type="button" class="btn btn-delete"
+                  onclick="openDeleteModal(2, 'Oversized Box Tee')">Delete</button></div>
+            </td>
+          </tr>
+          <tr data-id="3">
+            <td class="product-name">Stripe Classic</td>
+            <td>$32</td>
+            <td>64</td>
+            <td>Active</td>
+            <td>
+              <div class="btn-group"><button type="button" class="btn btn-edit"
+                  onclick="openEditModal(3)">Edit</button><button type="button" class="btn btn-delete"
+                  onclick="openDeleteModal(3, 'Stripe Classic')">Delete</button></div>
+            </td>
+          </tr>
+          <tr data-id="4">
+            <td class="product-name">Heavy Cotton</td>
+            <td>$36</td>
+            <td>42</td>
+            <td>Active</td>
+            <td>
+              <div class="btn-group"><button type="button" class="btn btn-edit"
+                  onclick="openEditModal(4)">Edit</button><button type="button" class="btn btn-delete"
+                  onclick="openDeleteModal(4, 'Heavy Cotton')">Delete</button></div>
+            </td>
+          </tr>
+          <tr data-id="5">
+            <td class="product-name">V-Neck Essential</td>
+            <td>$26</td>
+            <td>98</td>
+            <td>Active</td>
+            <td>
+              <div class="btn-group"><button type="button" class="btn btn-edit"
+                  onclick="openEditModal(5)">Edit</button><button type="button" class="btn btn-delete"
+                  onclick="openDeleteModal(5, 'V-Neck Essential')">Delete</button></div>
+            </td>
+          </tr>
+          <tr data-id="6">
+            <td class="product-name">Pocket Tee</td>
+            <td>$30</td>
+            <td>55</td>
+            <td>Active</td>
+            <td>
+              <div class="btn-group"><button type="button" class="btn btn-edit"
+                  onclick="openEditModal(6)">Edit</button><button type="button" class="btn btn-delete"
+                  onclick="openDeleteModal(6, 'Pocket Tee')">Delete</button></div>
+            </td>
+          </tr>
+          <tr data-id="7">
+            <td class="product-name">Organic Cotton</td>
+            <td>$38</td>
+            <td>30</td>
+            <td>Active</td>
+            <td>
+              <div class="btn-group"><button type="button" class="btn btn-edit"
+                  onclick="openEditModal(7)">Edit</button><button type="button" class="btn btn-delete"
+                  onclick="openDeleteModal(7, 'Organic Cotton')">Delete</button></div>
+            </td>
+          </tr>
+          <tr data-id="8">
+            <td class="product-name">Minimal Logo</td>
+            <td>$32</td>
+            <td>0</td>
+            <td>Out of stock</td>
+            <td>
+              <div class="btn-group"><button type="button" class="btn btn-edit"
+                  onclick="openEditModal(8)">Edit</button><button type="button" class="btn btn-delete"
+                  onclick="openDeleteModal(8, 'Minimal Logo')">Delete</button></div>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -235,20 +588,23 @@
         </div>
         <div class="form-group">
           <label class="input-label">Product Image</label>
-          
+
           <label for="file-upload" class="upload-area">
-            
+
             <div class="icon">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 16.2091 19.2091 18 17 18H7C4.79086 18 3 16.2091 3 14C3 11.7909 4.79086 10 7 10Z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 10V14M12 10L9 13M12 10L15 13" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path
+                  d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 16.2091 19.2091 18 17 18H7C4.79086 18 3 16.2091 3 14C3 11.7909 4.79086 10 7 10Z"
+                  stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 10V14M12 10L9 13M12 10L15 13" stroke="#888" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
               </svg>
             </div>
-        
+
             <span class="upload-text">Drag and drop your image here, or click to select</span>
-            
+
             <span class="upload-btn">Upload Image</span>
-            
+
             <input type="file" id="file-upload" hidden>
           </label>
         </div>
@@ -288,20 +644,23 @@
         </div>
         <div class="form-group">
           <label class="input-label">Product Image</label>
-          
+
           <label for="file-upload" class="upload-area">
-            
+
             <div class="icon">
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 16.2091 19.2091 18 17 18H7C4.79086 18 3 16.2091 3 14C3 11.7909 4.79086 10 7 10Z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 10V14M12 10L9 13M12 10L15 13" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path
+                  d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 16.2091 19.2091 18 17 18H7C4.79086 18 3 16.2091 3 14C3 11.7909 4.79086 10 7 10Z"
+                  stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M12 10V14M12 10L9 13M12 10L15 13" stroke="#888" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
               </svg>
             </div>
-        
+
             <span class="upload-text">Drag and drop your image here, or click to select</span>
-            
+
             <span class="upload-btn">Upload Image</span>
-            
+
             <input type="file" id="file-upload" hidden>
           </label>
         </div>
@@ -333,7 +692,8 @@
   <div class="modal-overlay" id="deleteModal" aria-hidden="true">
     <div class="modal">
       <h2>Delete product</h2>
-      <p style="color: var(--muted); margin-bottom: 1rem;">Are you sure you want to delete <strong id="deleteProductName"></strong>? This cannot be undone.</p>
+      <p style="color: var(--muted); margin-bottom: 1rem;">Are you sure you want to delete <strong
+          id="deleteProductName"></strong>? This cannot be undone.</p>
       <div class="modal-actions">
         <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
         <button type="button" class="btn btn-delete" id="confirmDeleteBtn">Delete</button>
@@ -341,7 +701,9 @@
     </div>
   </div>
 
-  <footer><p>© Threads Admin. Quality tees, no fluff.</p></footer>
+  <footer>
+    <p>© Threads Admin. Quality tees, no fluff.</p>
+  </footer>
 
   <script>
     const addModal = document.getElementById('addModal');
@@ -349,7 +711,7 @@
     const deleteModal = document.getElementById('deleteModal');
     const tbody = document.getElementById('productTableBody');
 
-    document.getElementById('addProductBtn').addEventListener('click', function() {
+    document.getElementById('addProductBtn').addEventListener('click', function () {
       addModal.classList.add('open');
       addModal.setAttribute('aria-hidden', 'false');
     });
@@ -359,7 +721,7 @@
       addModal.setAttribute('aria-hidden', 'true');
     }
 
-    document.getElementById('addForm').addEventListener('submit', function(e) {
+    document.getElementById('addForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const name = document.getElementById('addName').value.trim();
       const sku = document.getElementById('addSku').value.trim();
@@ -394,7 +756,7 @@
       editModal.setAttribute('aria-hidden', 'true');
     }
 
-    document.getElementById('editForm').addEventListener('submit', function(e) {
+    document.getElementById('editForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const id = document.getElementById('editId').value;
       const row = tbody.querySelector('tr[data-id="' + id + '"]');
@@ -423,7 +785,7 @@
       deleteTargetId = null;
     }
 
-    document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
       if (deleteTargetId !== null) {
         const row = tbody.querySelector('tr[data-id="' + deleteTargetId + '"]');
         if (row) row.remove();
@@ -431,9 +793,10 @@
       }
     });
 
-    addModal.addEventListener('click', function(e) { if (e.target === this) closeAddModal(); });
-    editModal.addEventListener('click', function(e) { if (e.target === this) closeEditModal(); });
-    deleteModal.addEventListener('click', function(e) { if (e.target === this) closeDeleteModal(); });
+    addModal.addEventListener('click', function (e) { if (e.target === this) closeAddModal(); });
+    editModal.addEventListener('click', function (e) { if (e.target === this) closeEditModal(); });
+    deleteModal.addEventListener('click', function (e) { if (e.target === this) closeDeleteModal(); });
   </script>
 </body>
+
 </html>
